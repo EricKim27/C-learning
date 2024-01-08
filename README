@@ -1,0 +1,4 @@
+This is where I put my C codes and compilation results.
+
+The code is in the codes directory, and the results are in results directory.
+Most executables are x86_64, but some of it is executable on arm64 platforms, as I'm compiling with apple silicon.
