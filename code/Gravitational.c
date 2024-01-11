@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
     }
     printf("It took %f seconds for it to fall \n", duration);
     for (int i = 0; i < DataCounter; i++) {
-        fprintf(csv, "%lf, %lf\n", distance_data[i], time_data[i]);
+        fprintf(csv, "%lf, %lf\n", time_data[i], distance_data[i]);
     }
     printf("Data written to %s\n", Fname);
     fclose(csv);
