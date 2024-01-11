@@ -2,7 +2,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
-#define MAX_LENGTH 1024
+#define MAX_LENGTH 4096
 
 int main(int argc, char* argv[]) {
     if(argc < 2){
