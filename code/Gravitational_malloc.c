@@ -2,20 +2,28 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <math.h>
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) {
+    if (argc < 3) {
         printf("Syntax error!\n");
         return 3;
     }
     FILE *csv;
+    float weight = atoi(argv[2]);
     float GravitationalPull = 9.8;
     char Fname[128];
+    float refarea = 0.01;
+    float airdensity = 1.2;
     sprintf(Fname, "Fall_%sm.csv", argv[1]);
     double distance = strtod(argv[1], NULL);
     if (distance < 0) {
         printf("Wrong distance! Distance should be a positive value. \n");
         return 2;
+    }
+    if (weight < 0) {
+        printf("Weight should be positive value\n");
+        return 5;
     }
     csv = fopen(Fname, "w");
     if (csv == NULL) {
@@ -37,7 +45,10 @@ int main(int argc, char* argv[]) {
     double duration = 0.0;
 
     while (distance > 0) {
-        initspeed += GravitationalPull * 0.001;
+        float terminal_velocity = sqrt((2 * weight * GravitationalPull) / (airdensity * refarea));
+        float drag_coefficient = 2 * weight * GravitationalPull / (airdensity * refarea * terminal_velocity * terminal_velocity);
+        float air_resistance = -(drag_coefficient * initspeed);
+        initspeed += (GravitationalPull + air_resistance) * 0.001;
         distance -= initspeed * 0.001;
         duration += 0.001;
         usleep(1000);
