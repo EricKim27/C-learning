@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
             free(distance_data);
             free(time_data);
             fclose(csv);
-            return 5;
+            return 6;
         }
 
         distance_data[DataCounter] = distance;
