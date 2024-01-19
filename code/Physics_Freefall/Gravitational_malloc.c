@@ -5,14 +5,12 @@
 #include <math.h>
 
 int main(int argc, char* argv[]) {
-    if (argc < 4) {
+    if (argc < 3) {
         printf("Syntax error!\n");
-        printf("Usage: %s <distance> <weight> <terminal Velocity> \n", argv[0]);
         return 3;
     }
     FILE *csv;
-    float TerminalVelocity = atof(argv[3]);
-    float weight = atof(argv[2]);
+    float weight = atoi(argv[2]);
     float GravitationalPull = 9.8;
     char Fname[128];
     float refarea = 0.01;
@@ -37,6 +35,8 @@ int main(int argc, char* argv[]) {
     double *time_data = (double *)malloc(0);      // Initialize an empty dynamic array
     if (distance_data == NULL || time_data == NULL) {
         perror("Memory allocation error!");
+        free(distance_data);
+        free(time_data);
         fclose(csv);
         return 4;
     }
@@ -47,7 +47,9 @@ int main(int argc, char* argv[]) {
     double duration = 0.0;
 
     while (distance > 0) {
-        float air_resistance = (weight * GravitationalPull) / TerminalVelocity;
+        float terminal_velocity = sqrt((2 * weight * GravitationalPull) / (airdensity * refarea));
+        float drag_coefficient = 2 * weight * GravitationalPull / (airdensity * refarea * terminal_velocity * terminal_velocity);
+        float air_resistance = -(drag_coefficient * initspeed);
         initspeed += (GravitationalPull + air_resistance) * 0.001;
         distance -= initspeed * 0.001;
         duration += 0.001;
