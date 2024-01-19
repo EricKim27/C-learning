@@ -5,12 +5,14 @@
 #include <math.h>
 
 int main(int argc, char* argv[]) {
-    if (argc < 3) {
+    if (argc < 4) {
         printf("Syntax error!\n");
+        printf("Usage: %s <distance> <weight> <terminal Velocity> \n", argv[0]);
         return 3;
     }
     FILE *csv;
-    float weight = atoi(argv[2]);
+    float TerminalVelocity = atof(argv[3]);
+    float weight = atof(argv[2]);
     float GravitationalPull = 9.8;
     char Fname[128];
     float refarea = 0.01;
@@ -45,9 +47,7 @@ int main(int argc, char* argv[]) {
     double duration = 0.0;
 
     while (distance > 0) {
-        float terminal_velocity = sqrt((2 * weight * GravitationalPull) / (airdensity * refarea));
-        float drag_coefficient = 2 * weight * GravitationalPull / (airdensity * refarea * terminal_velocity * terminal_velocity);
-        float air_resistance = -(drag_coefficient * initspeed);
+        float air_resistance = (weight * GravitationalPull) / TerminalVelocity;
         initspeed += (GravitationalPull + air_resistance) * 0.001;
         distance -= initspeed * 0.001;
         duration += 0.001;
