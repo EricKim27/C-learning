@@ -35,6 +35,7 @@ int main(int argc, char* argv[]) {
 
     double *distance_data = (double *)malloc(0);  // Initialize an empty dynamic array
     double *time_data = (double *)malloc(0);      // Initialize an empty dynamic array
+    double *velocity_data = (double *)malloc(0);
     if (distance_data == NULL || time_data == NULL) {
         perror("Memory allocation error!");
         free(distance_data);
@@ -47,14 +48,17 @@ int main(int argc, char* argv[]) {
     double duration = 0.0;
 
     while (data.distance > 0) {
-        float air_resistance = (weight * data.GravitationalPull) / data.TerminalVelocity;
-        data.initspeed += (data.GravitationalPull + air_resistance) * 0.001;
+        float drag_coefficient = (weight * data.GravitationalPull) / data.TerminalVelocity;
+        float air_resistance = drag_coefficient * data.initspeed;
+        if(data.initspeed < data.TerminalVelocity)
+            data.initspeed += (data.GravitationalPull + air_resistance) * 0.001;
         data.distance -= data.initspeed * 0.001;
         duration += 0.001;
 
         // Increase the size of the dynamic arrays
         distance_data = (double *)realloc(distance_data, (data.DataCounter + 1) * sizeof(double));
         time_data = (double *)realloc(time_data, (data.DataCounter + 1) * sizeof(double));
+        velocity_data = (double *)realloc(velocity_data, (data.DataCounter + 1) * sizeof(double));
 
         if (distance_data == NULL || time_data == NULL) {
             perror("Memory reallocation error!");
@@ -66,13 +70,14 @@ int main(int argc, char* argv[]) {
 
         distance_data[data.DataCounter] = data.distance;
         time_data[data.DataCounter] = duration;
+        velocity_data[data.DataCounter] = data.initspeed;
         data.DataCounter++;
     }
 
     printf("It took %f seconds for it to fall \n", duration);
 
     for (int i = 0; i < data.DataCounter; i++) {
-        fprintf(csv, "%lf, %lf\n", time_data[i], distance_data[i]);
+        fprintf(csv, "%lf, %lf, %lf\n", time_data[i], distance_data[i], velocity_data[i]);
     }
 
     printf("Data written to %s\n", data.Fname);
