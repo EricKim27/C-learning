@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
         float drag_coefficient = (weight * data.GravitationalPull) / data.TerminalVelocity;
         float air_resistance = drag_coefficient * data.initspeed;
         if(data.initspeed < data.TerminalVelocity)
-            data.initspeed += (data.GravitationalPull + air_resistance) * 0.001;
+            data.initspeed += (data.GravitationalPull - air_resistance) * 0.001;
         data.distance -= data.initspeed * 0.001;
         duration += 0.001;
 
