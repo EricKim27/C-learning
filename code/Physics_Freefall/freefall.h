@@ -1,6 +1,6 @@
 struct freefall_data {
     float initspeed;
-    float GravitationalPull;
+    float GravitationalPull = 9.8;
     double duration;
     double distance;
     int DataCounter;

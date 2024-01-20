@@ -15,7 +15,6 @@ int main(int argc, char* argv[]) {
     struct freefall_data data;
     data.TerminalVelocity = atof(argv[3]);
     float weight = atof(argv[2]);
-    data.GravitationalPull = 9.8;
     data.Fname[128];
     sprintf(data.Fname, "Fall_%sm.csv", argv[1]);
     data.distance = strtod(argv[1], NULL);
