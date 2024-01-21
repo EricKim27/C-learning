@@ -13,6 +13,7 @@ int main(int argc, char* argv[]) {
     }
     FILE *csv;
     struct freefall_data data;
+    data.GravitationalPull = 9.8;
     data.TerminalVelocity = atof(argv[3]);
     float weight = atof(argv[2]);
     data.Fname[128];
@@ -39,16 +40,16 @@ int main(int argc, char* argv[]) {
         perror("Memory allocation error!");
         free(distance_data);
         free(time_data);
+        free(velocity_data);
         fclose(csv);
         return 4;
     }
 
     double initdistance = data.distance;
     double duration = 0.0;
-    float drag_coefficient = (weight * data.GravitationalPull) / data.TerminalVelocity;
 
     while (data.distance > 0) {
-        float air_resistance = drag_coefficient * data.initspeed;
+        float air_resistance = (weight * data.GravitationalPull) / data.TerminalVelocity;
         if(data.initspeed < data.TerminalVelocity)
             data.initspeed += (data.GravitationalPull - air_resistance) * 0.001;
         data.distance -= data.initspeed * 0.001;
@@ -59,7 +60,7 @@ int main(int argc, char* argv[]) {
         time_data = (double *)realloc(time_data, (data.DataCounter + 1) * sizeof(double));
         velocity_data = (double *)realloc(velocity_data, (data.DataCounter + 1) * sizeof(double));
 
-        if (distance_data == NULL || time_data == NULL) {
+        if (distance_data == NULL || time_data == NULL || velocity_data == NULL) {
             perror("Memory reallocation error!");
             free(distance_data);
             free(time_data);
