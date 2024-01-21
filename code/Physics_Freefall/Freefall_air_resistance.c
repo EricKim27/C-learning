@@ -64,6 +64,7 @@ int main(int argc, char* argv[]) {
             perror("Memory reallocation error!");
             free(distance_data);
             free(time_data);
+            free(velocity_data);
             fclose(csv);
             return 6;
         }
@@ -85,6 +86,7 @@ int main(int argc, char* argv[]) {
     // Free allocated memory
     free(distance_data);
     free(time_data);
+    free(velocity_data);
 
     fclose(csv);
     return 0;
