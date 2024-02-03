@@ -16,7 +16,6 @@ int main(int argc, char* argv[]) {
     data.GravitationalPull = 9.8;
     data.TerminalVelocity = atof(argv[3]);
     float weight = atof(argv[2]);
-    data.Fname[128];
     sprintf(data.Fname, "Fall_%sm.csv", argv[1]);
     data.distance = strtod(argv[1], NULL);
     if (data.distance < 0) {
@@ -46,6 +45,7 @@ int main(int argc, char* argv[]) {
     }
     data.initspeed = 0.0;
     double initdistance = data.distance;
+    data.DataCounter = 0;
     double duration = 0.0;
 
     while (data.distance > 0) {
