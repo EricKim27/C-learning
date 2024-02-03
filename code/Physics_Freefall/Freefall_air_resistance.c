@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
         fclose(csv);
         return 4;
     }
-
+    data.initspeed = 0.0;
     double initdistance = data.distance;
     double duration = 0.0;
 
