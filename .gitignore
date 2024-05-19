@@ -1,3 +1,6 @@
 code/Fall_2m.csv
 code/Fall_4m.csv
 .metadata
+code/voidptr/*.o
+code/voidptr/add
+code/voidptr/seg
